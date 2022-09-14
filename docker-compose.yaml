@@ -9,7 +9,9 @@ services:
     image: nginx:latest
     container_name: nginx
     ports:
-      - "8080:80"
+      - "9000:8000"
+      - "9001:8001"
+      - "9002:8002"
     volumes:
       - ./htdocs:/var/www/
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
