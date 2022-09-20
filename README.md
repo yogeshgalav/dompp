@@ -4,26 +4,30 @@
 
 DOMPP is a combination of Docker, Nginx, Mysql, Php and PhpMyAdmin.
 This package is made for php or Laravel developers who want to start learning docker or people who are frustrated from software like Xampp, Wampp
-for running this package you just need docker to be installed on your os.
+For running this package you just need docker to be installed on your os.
+For windows the docker would require wsl2 or linux kernel.
 and then run the command
 
-    docker compose up
+    docker-compose up -d
 
-**By default your htdocs folder will point to port localhost:9000,
-mysql will run on port 3306,
+If it shows no error you can check
+
+    http://localhost
+
+1. Create or copy your project in htdocs,
+2. Change PROJECT_DIR in env file,
+
+**By default the nginx will read your public/index.html
+this is done due to laravel default configuration.**
+
+If you want to change nginx configuration, check nginx/default.conf
+
+**By defaul mysql will run on port 3306,
 and phpmyadmin will run on port localhost:8183**
 
 You also get composer and node already installed in php container, so you can easily run applications like Laravel
 
 Further more we have provided laravel_build.sh and laravel_deploy.sh to help Laravel developers
-
-If you want to access php file by path inside htdocs/
-
-http://localhost:9000/path-to-index-file
-
-If you want to serve php file, run cmd inside php container
-
-    php -S localhost:8000 index.php
 
 If you want to access phpmyadmin go to localhost:8183  
 
@@ -31,45 +35,20 @@ If you want to access phpmyadmin go to localhost:8183
     Username: "root"
     Password: "root"
 
-  
-
-If you want to change ports or version or default configuration, run
-
-    docker compose down
-
-And after you are done with your changes again run
-
-    docker compose up
-
-**If you are new to docker few examples are given below.**
-
-If you want to change port in url, goto to docker-compose.yml and change line 12
-
-If you want to serve multiple applications, add ports to docker-compose.yml after line 12
-
-    ports
-    - "9000:8000"
-    - "9001:8001"
-    - "9002:8002"
+If you want to change ports or version or default configuration,
+Make your changes in .env file
+and don't forget to restart your containers.
 
 If you want to edit php.ini for memory setting, go to php directory and edit php.ini
 
 If you want to change version of php version,
+You can find certain set of supported php dockerfile inside php directory,
+You can also create one of your own or edit existing according to your needs.
+then change PHP_DOCKERFILE in env file.
+You may need to rebuild image with --no-cache, if had you build it once.
 
-change line 1 in php/php.dockerfile
+You can also change mysql port if 3306 is already occupied on your system.
+Or phpmyadmin port
+Just change env file.
 
-If you want to change mysql version,
-change docker-compose.yml line 30
-
-If you want to change mysql port
-change docker-compose.yml line 40
-
-    ports:
-    - 3306:3306
-
-If you want to change phpmyadmin port
-
-change docker-compose.yml line 58
-
-    ports:
-    - 8183:80
+Thank you and have a nice day.
