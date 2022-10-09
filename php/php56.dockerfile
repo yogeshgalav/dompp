@@ -1,7 +1,8 @@
-FROM php:8.1-fpm
+FROM php:5.6-fpm
 
 ENV USER=www
 ENV GROUP=www
+
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
@@ -42,3 +43,10 @@ COPY --chown=${USER}:${GROUP} . .
 EXPOSE 9000
 
 CMD ["php-fpm"]
+
+
+# RUN ["chmod", "+x", "laravel_build.sh"]
+# CMD [ "sh", "./laravel_build.sh" ]
+
+# RUN ["chmod", "+x", "laravel_deploy.sh"]
+# CMD [ "sh", "./laravel_deploy.sh" ]

@@ -2,12 +2,13 @@ version : '3'
 
 networks:
     dompp:
-        driver: bridge
+      name: dompp
+      driver: bridge
 
 services:
   nginx:
     image: nginx:latest
-    container_name: nginx
+    container_name: dompp_nginx
     restart: unless-stopped
     ports:
       - "${NGINX_PORT}:80"
@@ -23,8 +24,8 @@ services:
   php:
     build:
       context: .
-      dockerfile: ./php/${PHP_DOCKERFILE}
-    container_name: php
+      dockerfile: ./php/${PHP_DOCKERFILE}.dockerfile
+    container_name: dompp_${PHP_DOCKERFILE}
     volumes:
       - ./htdocs/${PROJECT_DIR}:/var/www/
     networks:
@@ -32,7 +33,7 @@ services:
     
   mysql:
     image: mysql:latest
-    container_name: dev_mysql
+    container_name: dompp_mysql
     volumes:
       - ./mysql:/var/lib/mysql
     environment:
@@ -47,7 +48,7 @@ services:
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
-    container_name: dev_pma
+    container_name: dompp_pma
     links:
       - mysql
     environment:
